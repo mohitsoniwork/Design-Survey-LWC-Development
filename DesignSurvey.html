@@ -1,0 +1,80 @@
+<template>
+    <div class="slds-align_absolute-center">
+    <div if:true={showSpinner}>
+        <!-- Show spinner while waiting for submission response -->
+        <lightning-spinner alternative-text="Loading" size="large" style="color: blue;"></lightning-spinner>
+    </div>
+    <div if:true={showSurvey}>
+        <!-- Your survey form here -->
+        <template if:true={showImage}>
+            <div class="slds-align_absolute-center">
+                <img src={imageUrl} alt="Survey Image" style="max-width: 300px; max-height: 200px;"/>
+            </div>
+        </template>
+        <!-- <div class="slds-align_absolute-center">
+            <h1 style="font-size: 26px; font-weight: bold; color: red;">{relatedRecordName}</h1>
+        </div>             -->
+        <div class="slds-align_absolute-center">
+            <h1 style="font-size: 250%; font-weight: bold; slds-m-top_medium">{surveyHeading}</h1>
+        </div> 
+        <br/>
+        <!-- <div class="slds-align_absolute-left"><h1 style="font-size: 20px; font-weight: bold; padding-left: 30rem;color: red;">Project Communication</h1></div>  -->
+        <div class="slds-align_absolute-left"><h1 style="font-size: 20px; font-weight: bold;">Design Satisfaction</h1></div>
+        <div class="slds-grid slds-grid_vertical ">
+            <div class="slds-col" >
+                <template for:each={surveyQuestions} for:item="question">
+                    <div key={question.id} class="">
+                        <h3 class="slds-p-top_x-small slds-p-bottom_x-small" style="font-size: 115%; font-weight: 400;" >{question.text}</h3>
+                        <div class="slds-grid">
+                            <template for:each={question.options} for:item="option">
+                                <div key={option.value} class="option-item">
+                                    <input type="radio" id={option.value} name={question.id} value={option.label} onchange={handleOptionChange} class="radio_input">
+                                    <label for={option.value} class="option-item_label">{option.label}</label>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <br/> <br/>
+
+        <div class="slds-p-top_small"><h1 style="font-size: 20px; font-weight: bold;">Design Outcomes</h1></div> 
+
+        <div class="slds-grid slds-grid_vertical slds-p-bottom_x-large">
+            <div class="slds-col" >
+                <template for:each={surveyQuestions2} for:item="question">
+                    <div key={question.id} class="">
+                        <h3 class="slds-p-top_x-small slds-p-bottom_x-small" style="font-size: 115%; font-weight: 400;">{question.text}</h3>
+                        <div class="slds-grid slds-align_absolute-left">
+                            <template for:each={question.options} for:item="option">
+                                <div key={option.value} class="option-item">
+                                    <input type="radio" id={option.value} name={question.id} value={option.label} onchange={handleOptionChange} class="radio_input">
+                                    <label for={option.value} class="option-item_label">{option.label}</label>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+        <div >
+            <lightning-textarea class="large-textarea slds-p-bottom_small" placeholder="Anything else you'd like us to know?" onchange={handleDescriptionChange}></lightning-textarea>
+        </div>
+        <div class="slds-align_absolute-center">
+            <lightning-button label="Submit" onclick={handleSubmit} variant="brand"></lightning-button>
+        </div>
+    </div>
+    <div if:false={showSurvey}>
+        <!-- Show success message -->
+        <template if:true={displayImage}>
+            <div class="slds-align_absolute-center slds-grid slds-grid_vertical ">
+                <img src={displayUrl} alt="Survey Image" style="max-width: 900px; max-height: 900px;"/>
+                <h1 style="font-size: 50px;">THANK YOU!!!</h1>
+                <h2>YOUR RESPONSE HAS BEEN RECORDED.</h2>
+            </div>
+        </template>
+    </div>
+    </div>
+</template>
